@@ -30,3 +30,5 @@ It has a lot of great helpers with the included library of [drei](https://github
 
 - More are coming...
 
+### The app is live on netlify
+Check it over [here](https://learning-three-js.netlify.app/)
