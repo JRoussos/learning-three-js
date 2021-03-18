@@ -15,7 +15,7 @@ const Menu = ({ routes }) => {
             </div>
             <div className="sidenav" style={{ right: open ? 0 : "-250px" }}>
                 <ul> 
-                    {routes.map( (r, index) => <li><a key={index} href={r.path}>{r.name}</a></li> )}
+                    {routes.map( (r, index) => <li key={index}><a href={r.path}>{r.name}</a></li> )}
                 </ul>
             </div>
         </div>
