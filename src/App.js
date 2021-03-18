@@ -1,45 +1,34 @@
-import React, { useRef, Suspense, useEffect, useState } from 'react'
+import React, { Suspense } from 'react'
 
-import { Canvas, useFrame, useThree } from 'react-three-fiber';
-import { Vector3 } from 'three';
+import { Canvas } from 'react-three-fiber';
 import { Loader } from '@react-three/drei';
 
-import ColorShift from './colorShift/ColorShift';
-import Fake3D from './fake3d/Fake3D';
+import { Switch, Router, Route } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
+
+import routes from './utils/routes';
+import Camera from './utils/camera';
+import Menu from './menu';
 
 import './App.css';
 
-const Camera = props => {
-  const ref = useRef()
-  const { setDefaultCamera } = useThree()
-  const newPosition = new Vector3()
-
-  useEffect(() => {
-    void setDefaultCamera(ref.current)
-  }, [])
-  
-  useFrame(() => {
-    ref.current.position.lerp( newPosition.set(props.page*5, 0, 2), 0.06 )
-    ref.current.updateMatrixWorld()
-  }) 
-
-  return <perspectiveCamera ref={ref} {...props} />
-}
+const hist = createBrowserHistory()
 
 function App() {
-  const [ page, setPage] = useState(0)
-  const numberOfPages = 1
-
   return (
     <>
+      <Menu routes={routes}/>
       <Canvas concurrent colorManagement> 
-        <Camera position ={[0, 0, 2]} fov={70} near={0.01} far={100} page={page}/>
+        <Camera position ={[0, 0, 2]} fov={70} near={0.01} far={100}/>
         <Suspense fallback={null}>
-            <Fake3D setPage={setPage} page={page} numberOfPages={numberOfPages}/>
-            <ColorShift setPage={setPage} page={page} numberOfPages={numberOfPages}/>
+          <Router history={hist}>
+          <Switch>
+            {routes.map( (r, index) => <Route path={r.path} component={r.component} key={index} />)}
+          </Switch>
+          </Router>
         </Suspense>
       </Canvas>
-      <Loader/>
+      <Loader dataInterpolation={ (p) => `${(p * 100).toFixed(2)}%` }/>
     </>
   );
 }

@@ -28,5 +28,9 @@ It has a lot of great helpers with the included library of [drei](https://github
 
 - RGB shift on mouse move. When the cursor passes over the image it splits its color channels (Red, Green and Blue) depending the mouse acceleration. 
 
+- Matrix of dots moving in space with a sine wave function.
+
 - More are coming...
 
+### The app is live on netlify
+Check it over [here](https://learning-three-js.netlify.app/)

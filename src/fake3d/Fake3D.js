@@ -10,29 +10,29 @@ import depth from '../imgs/mountains-map.jpg';
 
 import './depthMaterial';
 
-const Fake3D = ({ setPage, page, numberOfPages }) => {
+const Fake3D = () => {
     const scn = useLoader(TextureLoader, canyon)
     const map = useLoader(TextureLoader, depth)
     const mesh = useRef()
     const uMouse = new Vector2()
     
-    window.addEventListener('mousemove', e => {
+    window.addEventListener('pointermove', e => {
       gsap.to(uMouse, { duration: 0.6, x: ( e.clientX / window.innerWidth ) * 2 - 1, y: -( e.clientY / window.innerHeight) * 2 + 1 })
       if(mesh.current){
         gsap.to(mesh.current.rotation, { duration: 0.5, x: -uMouse.y * 0.05, y: uMouse.x * 0.05 })
       }
     })
   
-    useFrame( state => {
+    useFrame( () => {
       mesh.current.material.uniforms.uMouse.value = uMouse
     })
   
     return(<>
-      <mesh ref={mesh} position={[0, 0, 0]} onClick={() => setPage( numberOfPages > page ? page+1 : 0 )}>
+      <mesh ref={mesh} position={[0, 0, 0]} >
         <planeBufferGeometry attach="geometry" args={[3, 1.5]}/>
         <depthMaterial attach="material" map={scn} depth={map}/>
       </mesh>       
-      <Html fullscreen position={[0, 0, 0.2]}>
+      <Html zIndexRange={[1, 0]} fullscreen position={[0, 0, 0.2]}>
         <p className="page_title">Fake 3D effect with the use of a depth map.</p>
       </Html>
       </>

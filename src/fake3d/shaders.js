@@ -1,3 +1,12 @@
+const vertex = 
+`varying vec2 vUv;
+varying vec3 vPosition;
+void main() {
+    vUv = uv;
+    vPosition = position;
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0 );
+}`
+
 const fragment = 
 `varying vec2 vUv;
 varying vec3 vPosition;
@@ -23,15 +32,6 @@ void main()  {
 
     // vec4 depth = texture2D(map, vUv);
     // gl_FragColor = texture2D(src, vUv + uMouse*depth.r);  
-}`
-
-const vertex = 
-`varying vec2 vUv;
-varying vec3 vPosition;
-void main() {
-    vUv = uv;
-    vPosition = position;
-    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0 );
 }`
 
 export { vertex, fragment }
