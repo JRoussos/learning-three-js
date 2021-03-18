@@ -13,9 +13,9 @@ const Menu = ({ routes }) => {
                     <div></div>
                 </div>
             </div>
-            <div className="sidenav" style={{ right: open ? 0 : "-250px" }}>
+            <div className="sidenav" style={{ right: open ? 0 : "-350px" }}>
                 <ul> 
-                    {routes.map( (r, index) => <li key={index}><a href={r.path}>{r.name}</a></li> )}
+                    {routes.map( (r, index) => <li key={index}><button onClick={() => document.location.search = `page=${r.path}`}>{r.name}</button></li> )}
                 </ul>
             </div>
         </div>

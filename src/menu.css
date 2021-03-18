@@ -1,8 +1,8 @@
 .sidenav {
     position: fixed;
     height: 100%;
-    width: 200px;
-    right: -250px;
+    width: 250px;
+    right: -350px;
     z-index: 10;
     padding: 20px;
 
@@ -19,12 +19,23 @@
     transform: scale(1.2);
 }
 
-.sidenav a {
+.sidenav button {
+    width: 100%;
+
     text-decoration: none;
     text-transform: uppercase;
+    text-align: right;
     font-size: small;
     letter-spacing: 1px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: black;
+
+    border: none;
+    background: none;
+    outline: none;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
 }
 
 .sidenav::-webkit-scrollbar {
