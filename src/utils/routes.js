@@ -3,6 +3,7 @@ import { lazy } from 'react';
 const ColorShift = lazy( () => import('../colorShift/ColorShift') );
 const Fake3D = lazy( () => import('../fake3d/Fake3D') );
 const Dots = lazy( () => import('../dots/Dots') );
+const Kinetic = lazy( () => import('../kineticTypography/kineticTypography') );
 
 const routes = [
     {
@@ -22,6 +23,12 @@ const routes = [
         name: 'Matrix of Dots',
         title: 'Matrix of dots moving in space with custom animation.',
         component: <Dots/>
+    },
+    {
+        path: 'kinetic_typo',
+        name: 'Kinetic Typography',
+        title: 'Mixing motion and text in an cool animation.',
+        component: <Kinetic/>
     }
 ]
 

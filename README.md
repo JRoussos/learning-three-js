@@ -30,7 +30,10 @@ It has a lot of great helpers with the included library of [drei](https://github
 
 - Matrix of dots moving in space with a sine wave function.
 
-- More are coming...
+- Kinetic Typography example. The animation is just a [glsl noise function](https://github.com/hughsk/glsl-noise/blob/master/classic/2d.glsl) but the posibilities are endless by just playing around with the values. (For some reason the letter edges are not smooth I need to work on it.)
+
+- For the next one I found a [cool image transition effect on dribbble](https://dribbble.com/shots/13992995-CORWIN-Website) that I want to try out.
+<!-- - More are coming... -->
 
 ### The app is live on netlify
 Check it over [here](https://learning-three-js.netlify.app/)

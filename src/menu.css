@@ -2,7 +2,7 @@
     position: fixed;
     height: 100%;
     width: 250px;
-    right: -350px;
+    right: -300px;
     z-index: 10;
     padding: 20px;
 
@@ -24,7 +24,7 @@
 
     text-decoration: none;
     text-transform: uppercase;
-    text-align: right;
+    text-align: center;
     font-size: small;
     letter-spacing: 1px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
