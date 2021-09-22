@@ -15,13 +15,18 @@ const Fake3D = () => {
     const map = useLoader(TextureLoader, depth)
     const mesh = useRef()
     const uMouse = new Vector2()
-    
-    window.addEventListener('pointermove', e => {
-      gsap.to(uMouse, { duration: 0.6, x: ( e.clientX / window.innerWidth ) * 2 - 1, y: -( e.clientY / window.innerHeight) * 2 + 1 })
-      if(mesh.current){
-        gsap.to(mesh.current.rotation, { duration: 0.5, x: -uMouse.y * 0.05, y: uMouse.x * 0.05 })
-      }
-    })
+
+    const handlePointerPositions = e => {
+      let xPos = e.clientX ?? e.targetTouches[0].clientX
+      let yPos = e.clientY ?? e.targetTouches[0].clientY
+
+      gsap.to(uMouse, { duration: 0.8, x: ( xPos / window.innerWidth ) * 2 - 1, y: -( yPos / window.innerHeight) * 2 + 1, ease: "sine.out" })
+      
+      if(mesh.current) gsap.to(mesh.current.rotation, { duration: 0.5, x: -uMouse.y * 0.05, y: uMouse.x * 0.05 })
+    }
+
+    window.addEventListener('pointermove', e => handlePointerPositions(e))
+    window.addEventListener('touchmove', e => handlePointerPositions(e))
   
     useFrame( () => {
       mesh.current.material.uniforms.uMouse.value = uMouse
