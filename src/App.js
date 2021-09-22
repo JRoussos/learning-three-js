@@ -4,7 +4,6 @@ import { Canvas } from 'react-three-fiber';
 import { Loader } from '@react-three/drei';
 
 import routes from './utils/routes';
-import Camera from './utils/camera';
 import Menu from './menu';
 
 import './App.css';
@@ -24,8 +23,7 @@ function App() {
   return (
     <>
       <Menu routes={routes}/>
-      <Canvas concurrent colorManagement> 
-        <Camera position ={[0, 0, 2]} fov={70} near={0.01} far={100}/>
+      <Canvas dpr={[window.devicePixelRatio, 2]} concurrent colorManagement camera={{ position: [0,0,2], fov: 70, near: 0.01, far: 100}}> 
         <Suspense fallback={null}>
           <Router/>
         </Suspense>

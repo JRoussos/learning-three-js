@@ -1,3 +1,4 @@
+// Based on https://tympanus.net/codrops/2020/12/17/recreating-a-dave-whyte-animation-in-react-three-fiber/
 import React, { useRef, useMemo }  from 'react'
 
 import { useFrame } from 'react-three-fiber';
@@ -15,8 +16,8 @@ const Dots = () => {
         const positions = [ ...Array(number_of_dots)].map( ( _, index ) => {
             const position = new Vector3()
 
-            position.y = ( (index % 20) * 0.05) - 0.45
-            position.x = ( Math.floor(index / 20) * 0.05) - 0.95
+            position.y = ((index % 20) - 10) * 0.05
+            position.x = (Math.floor(index / 20) - 20) * 0.05
 
             return position
         })
@@ -31,10 +32,9 @@ const Dots = () => {
         for(let i=0; i<number_of_dots; i++){
             const time = state.clock.getElapsedTime() - distances[i] / 2
 
-            // const squareWave = roundedSquareWave(time, 0.1, 1, 0.2)
-            // const squareWave = roundedSquareWave(time, 0.5, 0.4, 0.6)
-            // const scale = 1 + squareWave * 0.3
-
+            // const squareWave = roundedSquareWave(time, 0.4, 0.3, 0.6)
+            // const squareWave = roundedSquareWave(time, 0.15 + (0.2 * distances[i]) / 72, 0.4, 1 / 3.8)
+            // const scale = 1 + squareWave * 0.4
             const scale = 1 + Math.sin(2 * time * Math.PI) * 0.1
         
             vec.copy(positions[i]).multiplyScalar( scale )
