@@ -89,18 +89,19 @@ float cnoise(vec2 P)
 void main()  {
   vec2 newUV = vUv; 
   float time = time * 0.25;
-  vec2 repeat = vec2(2.0, 4.0);
+  vec2 repeat = vec2(3.0);
   
   // float cTime = clamp( sin(time), -0.2, 0.2 );
   // newUV.y += sin(newUV.x + time ) * strength;
   
-  float noise = cnoise( vPosition.xy + vec2(2.0) );
-  float strength = 0.3;
+  // float noise = cnoise( vPosition.xy + vec2(2.0) );
+  // float strength = 0.3;
   
-  newUV.x -= (newUV.y + noise - time) * strength;
-  newUV.y -= (newUV.x + noise + time) * strength;
+  // newUV.x -= (newUV.y + noise - time) * strength;
+  // newUV.y -= (newUV.x + noise + time) * strength;
   
-  newUV = fract( newUV * repeat - vec2(time, 1.0) );
+  float noise = cnoise( vPosition.xy + time );
+  newUV = fract( vec2(newUV.x + 0.5*time, newUV.y +newUV.x *0.4) * repeat - vec2(noise, 0.5) );
 
   vec4 texture = texture2D(disp, newUV);
   gl_FragColor = texture;

@@ -4,12 +4,13 @@ import { Vector3 } from 'three';
 
 const Camera = props => {
     const ref = useRef()
-    const { setDefaultCamera } = useThree()
+    const set = useThree(({set}) => set)
+    // const { setDefaultCamera } = useThree()
     const newPosition = new Vector3()
     
     useEffect(() => {
-      void setDefaultCamera(ref.current)
-    }, [setDefaultCamera])
+      set({camera: ref.current})
+    }, [set])
     
     useFrame(() => {
       ref.current.position.lerp( newPosition.set(0, 0, 2), 0.06 )

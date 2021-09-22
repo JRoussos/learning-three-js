@@ -1,14 +1,14 @@
-import React, { useRef, useMemo } from 'react'
+import React, { useRef, useMemo } from 'react';
 
 import { useFrame, createPortal } from 'react-three-fiber';
-import { WebGLMultisampleRenderTarget, Color, Scene, ShaderMaterial } from 'three';
+import { Color, Scene, WebGLRenderTarget } from 'three';
 import { Html, Text } from '@react-three/drei';
 
 import fonts from "./fonts";
 
 import './kineticMaterial';
 
-const text = "HELLO!";
+const text = "JOHN";
 
 const KineticTypo = () => {
     const mesh = useRef()
@@ -18,7 +18,7 @@ const KineticTypo = () => {
       const scene = new Scene()
       scene.background = new Color('#efefef')
   
-      const target = new WebGLMultisampleRenderTarget( window.innerWidth, window.innerHeight )
+      const target = new WebGLRenderTarget( window.innerWidth, window.innerHeight )
       // target.samples = 8
       return [ scene, target ]
     }, [])
@@ -27,13 +27,14 @@ const KineticTypo = () => {
       state.gl.setRenderTarget(target)
       state.gl.render(scene, cam.current)
       state.gl.setRenderTarget(null)
+      state.gl.setPixelRatio(2)
 
       mesh.current.material.uniforms.time.value = state.clock.getElapsedTime()
     })
   
     return(
       <>
-      <perspectiveCamera ref={cam} fov={45} aspect={1} near={0.1} far={1000} position={[0, 0, 50]}/>
+      <perspectiveCamera ref={cam} fov={Math.atan((window.innerHeight/2)/50 *2 *(180/Math.PI))} aspect={1} near={0.01} far={1000} position={[0, 0, 50]}/>
       {createPortal(
         <Text 
           color="black"
@@ -43,7 +44,10 @@ const KineticTypo = () => {
           ref={mesh}
           font={fonts['Raleway']}
           anchorX="center"
-          anchorY="middle"></Text>, scene )}
+          anchorY="middle"
+          outlineBlur={"5%"}
+          outlineOpacity={0.2}
+          outlineColor="black"></Text>, scene )}
       <mesh ref={mesh} >
         <planeBufferGeometry attach="geometry" args={[1.5, 1.5]}/>
         <kineticMaterial attach="material" map={target.texture}/>
