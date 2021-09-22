@@ -17,46 +17,26 @@ uniform vec2 resolution;
 uniform vec2 uMouse;
 uniform vec2 lastUMouse;
 
-uniform float pr;
-
 float circle(vec2 _st, float _radius, float blurriness){
   vec2 dist = _st;
   return 1.0 - smoothstep(_radius-(_radius*blurriness), _radius+(_radius*blurriness), sqrt(dot(dist,dist) * 4.0));
 }
 
-float map(float value, float min1, float max1, float min2, float max2){
-  return min2 + (value - min1) * (max2 - min2)/(max1 - min1);
-}
-
 void main()  {
-  vec2 newUV = vUv;
+  vec2 newUV = (vUv - vec2(0.5))*vec2(0.8) + vec2(0.5); // zoom in a little to avoid the stretch on the sides when the mouse passes over
 
-  // vec2 res = resolution * pr;
-  // vec2 st = gl_FragCoord.xy / res.xy - vec2(0.5);
-  // st.y *= resolution.y / resolution.x;
+  float dist = distance(vPosition.xy, uMouse);
+  float intensity = distance(uMouse, lastUMouse) * 0.2;
 
-  vec2 mouse = uMouse;
-  mouse.y *= resolution.y / resolution.x;
-  mouse *= -1.;
-
-  // vec2 circlePos = st + mouse;
-
-  float dist = length(vPosition.xy - uMouse);
-  float c = circle(vec2(dist), 0.2, 10.0);
+  float circle = circle(vec2(intensity, dist), 0.15, 8.0) * intensity;
   
-  float speed = distance(uMouse, lastUMouse);
+  vec2 zoomedUV = mix(newUV, uMouse + vec2(2.0), circle);
   
-  speed = smoothstep(0.0, 0.5, speed);
-  // speed = clamp(speed, 0.0, 0.06);
-  
-  vec2 zoomedUV = mix(vUv, mouse + vec2(1.0), c * speed);
-  
-  float r = texture2D(disp, zoomedUV -= c * speed).x;
-  float g = texture2D(disp, zoomedUV -= c * speed).y;
-  float b = texture2D(disp, zoomedUV -= c * speed).z;
-  vec4 final = vec4(r, g, b, 1.);
+  float r = texture2D(disp, zoomedUV += (circle*1.01)).x;
+  float g = texture2D(disp, zoomedUV += (circle*1.02)).y;
+  float b = texture2D(disp, zoomedUV += (circle*1.03)).z;
 
-  gl_FragColor = final;
+  gl_FragColor = vec4(r, g, b, 1.);
 }`
 
 export { vertex, fragment }
