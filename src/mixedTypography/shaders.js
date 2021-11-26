@@ -1,5 +1,5 @@
-const vertex = 
-`varying vec2 vUv;
+const vertex = /* glsl */ `
+varying vec2 vUv;
 varying vec3 vPosition;
 uniform float time;
 
@@ -12,8 +12,8 @@ void main() {
     gl_Position = projectionMatrix * modelViewMatrix * vec4(transformed, 1.0 );
 }`
 
-const fragment = 
-`varying vec2 vUv;
+const fragment = /* glsl */ `
+varying vec2 vUv;
 varying vec3 vPosition;
 
 uniform float time;
@@ -21,10 +21,6 @@ uniform vec2 resolution;
 uniform sampler2D disp;
 
 #define PI 3.14159265359
-
-// GlSL Noise function
-// https://github.com/hughsk/glsl-noise/blob/master/classic/2d.glsl
-// I should have import it with glslify but I got lazy and just copy paste it...
 
 vec4 mod289(vec4 x)
 {
@@ -87,24 +83,18 @@ float cnoise(vec2 P)
 
 void main()  {
   vec2 newUV = vUv; 
-  float time = time * 0.25;
-  vec2 repeat = vec2(2.0, 4.0);
-  
-  // float cTime = clamp( sin(time), -0.2, 0.2 );
-  // newUV.y += sin(newUV.x + time ) * strength;
-  
-  float noise = cnoise( vPosition.xy + vec2(2.0) );
-  float strength = 0.3;
-  
-  newUV.x -= (newUV.y + noise - time) * strength;
-  newUV.y -= (newUV.x + noise + time) * strength;
+  vec2 repeat = vec2(4.0, 0.0);
 
-  // float noise = cnoise( vPosition.xy + time );
-  // newUV = fract( vec2(newUV.x + 0.5*time, newUV.y +newUV.x *0.4) * repeat - vec2(noise, 0.5) );
+  float time = time * 0.15;
+  vec4 name = texture2D(disp, vUv);
 
-  newUV = fract( newUV * repeat - vec2(time, 1.0) );
+  float noise = cnoise( vPosition.xy + time );
+  newUV = fract( vec2(newUV.x + 0.5 * time, newUV.y + newUV.x * 0.5) * repeat - vec2(noise, 0.5) );
 
-  vec4 texture = texture2D(disp, newUV);
+  vec2 plusUV = vec2(newUV.x * (name.r + 0.5), newUV.y * (name.r + 0.5));
+
+  vec4 texture = texture2D(disp, plusUV);
+  
   gl_FragColor = texture;
 }`
 

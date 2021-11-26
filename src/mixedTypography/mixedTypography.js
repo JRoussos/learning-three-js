@@ -8,18 +8,17 @@ import fonts from "./fonts";
 
 import './kineticMaterial';
 
-const text = "JOHN!";
+const text = "JR";
 
-const KineticTypo = () => {
+const MixedTypo = () => {
     const mesh = useRef()
     const cam = useRef()
 
     const [ scene, target ] = useMemo( () => {
       const scene = new Scene()
-      scene.background = new Color('#efefef')
+      scene.background = new Color('#0d1117')
   
       const target = new WebGLRenderTarget( window.innerWidth, window.innerHeight )
-      // target.samples = 8
       return [ scene, target ]
     }, [])
 
@@ -37,23 +36,26 @@ const KineticTypo = () => {
       <perspectiveCamera ref={cam} fov={Math.atan((window.innerHeight/2)/50 *2 *(180/Math.PI))} aspect={1} near={0.01} far={1000} position={[0, 0, 50]}/>
       {createPortal(
         <Text 
-          color="black"
-          fontSize={35}
-          scale={[0.35, 1, 1]}
+          color="white"
+          fontSize={37}
+          scale={[0.3, 1, 1]}
           text={text}
           ref={mesh}
           font={fonts['Raleway']}
           anchorX="center"
-          anchorY="middle"></Text>, scene )}
+          anchorY="middle"
+          outlineBlur={"5%"}
+          outlineOpacity={0.5}
+          outlineColor="white"></Text>, scene )}
       <mesh ref={mesh} >
-        <planeBufferGeometry attach="geometry" args={[1.5, 1.5]}/>
+        <planeBufferGeometry attach="geometry" args={[3, 1]}/>
         <kineticMaterial attach="material" map={target.texture}/>
       </mesh>
       <Html zIndexRange={[1, 0]} fullscreen position={[0, 0, 0.2]}>
-        <p className="page_title">Mixing motion and text in an cool animation.</p>
+        <p className="page_title">Based on the previous kinetic animation.</p>
       </Html>
       </>
     )
 }
 
-export default KineticTypo;
+export default MixedTypo;

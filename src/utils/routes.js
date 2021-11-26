@@ -4,6 +4,7 @@ const ColorShift = lazy( () => import('../colorShift/ColorShift') );
 const Fake3D = lazy( () => import('../fake3d/Fake3D') );
 const Dots = lazy( () => import('../dots/Dots') );
 const Kinetic = lazy( () => import('../kineticTypography/kineticTypography') );
+const Mixed = lazy( () => import('../mixedTypography/mixedTypography') );
 
 const routes = [
     {
@@ -29,6 +30,12 @@ const routes = [
         name: 'Kinetic Typography',
         title: 'Mixing motion and text in an cool animation.',
         component: <Kinetic/>
+    },
+    {
+        path: 'mixed_typo',
+        name: 'Mixed Typography',
+        title: 'Based on the previous kinetic animation.',
+        component: <Mixed/>
     }
 ]
 
